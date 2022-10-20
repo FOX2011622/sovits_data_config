@@ -1,0 +1,22 @@
+@title 训练
+
+#@markdown 启用tensorboard可视化数据，首次运行可能十分钟左右出现数据
+
+#@markdown epoch次数看/content/drive/MyDrive/模型名/train.log
+
+#@markdown **首次**使用**预模型**时，成功运行约十五分钟后，发现自动保存了**新的.pth**（可能是G/D_20000.pth），然后**删除G/D_50000.pth**
+
+#@markdown 模型名（使用预模型则为nyarumul）
+hparams_model_name = "nyarumul"  # @param {type:"string"}
+#@markdown 模型自动保存到 /云盘路径/模型名 ,记得定期清理空间！
+param_enable_tb = True  # @param {type:"boolean"}
+if param_enable_tb:
+  #@markdown 云盘路径（一般不改） （定时清云盘！！！pth里保留最新的俩）
+  logdir = "/content/drive/MyDrive/"  # @param {type:"string"}
+  new_pth_dir = os.path.join(logdir, hparams_model_name)
+  get_tensorboard_showing(new_pth_dir)
+os.chdir('/content/sovits_f0_train')
+#@markdown 配置文件json名（使用预模型则为nyarumul.json）
+json_filename = "nyarumul.json"  # @param {type:"string"}
+# 这里魔改过until.py的args
+run_command_by_line(["python", "train_ms.py", "-c", "configs/{json}".format(json=json_filename), "-m", hparams_model_name, "-l",logdir])
