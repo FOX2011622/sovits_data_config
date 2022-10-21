@@ -1,6 +1,6 @@
 import os
 import subprocess
-
+import argparse
 import numpy as np
 import soundfile
 import torch
@@ -100,13 +100,20 @@ def check_file(file_train_name):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--name', help="display a square of a given number", type=str)
+    args = parser.parse_args()
+
+
     # 采样率，2.1必须为32000
     target_sample = 32000
     # 配置文件
     hps_ms = get_hparams_from_file("yilanqiu.json")
+    print(hps_ms)
     # speaker id
     ID = "|3|"
-    dataset_name = "tianyi"  # speaker 文件夹名
+    print(args.name)
+    dataset_name = args.name# speaker 文件夹名
     real_path = "./dataset/" + dataset_name
     pre = "dataset"
     # 转换采样率
